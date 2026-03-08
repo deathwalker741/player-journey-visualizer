@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build files
+build/
+dist/
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.test-cache
+
+# Environment files (development)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Package manager
+package-lock.json.backup
+yarn.lock.backup
+
+# Documentation
+docs/
+*.md
+
+# Source control
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Configuration
+.prettierrc
+.eslintrc
+tsconfig.json

@@ -1,0 +1,58 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Virtual environments
+venv
+env
+.venv
+virtualenv
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Database (if not needed in container)
+*.db
+*.sqlite
+
+# Environment files (development)
+.env
+.env.local
+.env.*.local
+
+# Node (if present)
+node_modules/
+npm-debug.log
+
+# Package manager
+.pip-log.txt
+.pip-delete-this-directory.txt
+
+# Documentation
+docs/
+README.md
+*.md

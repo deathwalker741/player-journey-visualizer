@@ -1,0 +1,138 @@
+# 🚀 QUICK START (5 Minutes)
+
+## Step 1: Open Terminal
+Navigate to the backend directory:
+```bash
+cd backend
+```
+
+## Step 2: Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+*Takes ~2-3 minutes*
+
+## Step 3: Run the Server
+```bash
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+You should see:
+```
+INFO:     Application startup complete
+INFO:     Uvicorn running on http://0.0.0.0:8000
+```
+
+## Step 4: Test It Works
+Open your browser and go to:
+```
+http://localhost:8000/docs
+```
+
+You'll see an interactive API explorer (Swagger UI).
+
+## Step 5: Try an Endpoint
+
+### In Swagger UI (Easiest)
+1. Click "GET /maps"
+2. Click "Try it out"
+3. Click "Execute"
+4. You should see map data returned
+
+### In Terminal (Using curl)
+```bash
+curl http://localhost:8000/maps
+```
+
+## Step 6: Get More Data
+
+Try these endpoints:
+
+```bash
+# Get matches for a date
+curl "http://localhost:8000/matches?date=2026-02-10&limit=5"
+
+# Get all health status
+curl http://localhost:8000/health
+
+# Get map info
+curl http://localhost:8000/maps
+```
+
+## Done! ✅
+
+Your backend API is now running!
+
+### What You Have
+- ✅ 5 working API endpoints
+- ✅ Parquet data loaded from disk
+- ✅ Coordinate transformation ready
+- ✅ Heatmap generation available
+- ✅ Database caching active
+- ✅ All documentation available
+
+### What's Next?
+1. **Explore the API**: Use Swagger UI at http://localhost:8000/docs
+2. **Read the docs**: Start with [START_HERE.md](START_HERE.md)
+3. **Run tests**: `python test_endpoints.py`
+4. **Integrate frontend**: Connect your React app to these endpoints
+
+### API Endpoints Ready to Use
+
+| Endpoint | Purpose |
+|----------|---------|
+| GET /maps | Get map configs |
+| GET /matches | List matches |
+| GET /match/{id}/journey | Get player paths |
+| GET /match/{id}/events | Get game events |
+| GET /heatmaps/{map}/{type} | Get intensity maps |
+
+### Example API Calls
+
+```bash
+# List all matches
+curl "http://localhost:8000/matches"
+
+# Get matches for a specific date
+curl "http://localhost:8000/matches?date=2026-02-10"
+
+# Get matches for a specific map
+curl "http://localhost:8000/matches?map=AmbroseValley"
+
+# Get player journeys for a match (after getting a match_id)
+curl "http://localhost:8000/match/{match_id}/journey"
+
+# Get events for a match
+curl "http://localhost:8000/match/{match_id}/events"
+
+# Get kill heatmap
+curl "http://localhost:8000/heatmaps/AmbroseValley/kills"
+
+# Get death heatmap
+curl "http://localhost:8000/heatmaps/GrandRift/deaths"
+
+# Get player movement heatmap
+curl "http://localhost:8000/heatmaps/Lockdown/traffic"
+```
+
+## Troubleshooting
+
+### Port 8000 already in use?
+```bash
+python -m uvicorn app.main:app --port 8001
+```
+
+### Need to stop the server?
+Press `Ctrl+C` in terminal
+
+### Want to reload on code changes?
+The `--reload` flag already enables this
+
+### Getting errors?
+Check the terminal output for error messages
+
+---
+
+**That's it! You're ready to go.** 🎉
+
+For more details, see [START_HERE.md](START_HERE.md) or [BACKEND_SETUP.md](BACKEND_SETUP.md).

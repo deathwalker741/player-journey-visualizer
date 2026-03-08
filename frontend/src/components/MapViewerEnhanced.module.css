@@ -1,0 +1,493 @@
+/**
+ * MapViewerEnhanced styling - Combined timeline, filters, and visualization
+ * 
+ * Layout:
+ * - Left: Map visualization (Deck.gl canvas)
+ * - Right: Control sidebar with timeline, filters, and stats
+ * 
+ * Features:
+ * - Responsive split-pane layout
+ * - Scrollable controls
+ * - Loading overlay
+ * - Error states
+ */
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #f5f7fa;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Map Container */
+.mapContainer {
+  flex: 1;
+  position: relative;
+  background: #1a1a1a;
+  overflow: hidden;
+  border-right: 1px solid #e2e8f0;
+}
+
+.mapContainer canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading Overlay */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingOverlay p {
+  color: white;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* Error Container */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #fff5f5;
+  padding: 20px;
+  text-align: center;
+}
+
+.errorContainer h2 {
+  color: #c53030;
+  margin-bottom: 10px;
+}
+
+.errorContainer p {
+  color: #742a2a;
+  max-width: 500px;
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  pointer-events: none;
+  font-size: 12px;
+  min-width: 200px;
+  transform: translate(-50%, -50%);
+  border-left: 4px solid #667eea;
+}
+
+.tooltipHeader {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tooltipContent {
+  color: #4a5568;
+  line-height: 1.6;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.tooltipContent div {
+  margin-bottom: 4px;
+}
+
+.tooltipContent strong {
+  color: #2d3748;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* Controls Container */
+.controlsContainer {
+  width: 360px;
+  background: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid #e2e8f0;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Scrollbar styling */
+.controlsContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.controlsContainer::-webkit-scrollbar-track {
+  background: #f7fafc;
+}
+
+.controlsContainer::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.controlsContainer::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Sections */
+.section {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section:last-child {
+  border-bottom: none;
+  padding-bottom: 24px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* Checkboxes */
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #2d3748;
+  user-select: none;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.checkbox:hover {
+  color: #667eea;
+}
+
+/* Event Type List */
+.eventTypeList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.eventTypeList .checkbox {
+  font-size: 12px;
+  padding: 6px 0;
+}
+
+/* Statistics Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 8px;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .controlsContainer {
+    width: 320px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .mapContainer {
+    flex: 1;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    min-height: 400px;
+  }
+
+  .controlsContainer {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+    max-height: 300px;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .section {
+    flex: 0 0 auto;
+    min-width: 250px;
+    border-bottom: none;
+    border-right: 1px solid #e2e8f0;
+    padding: 12px;
+  }
+
+  .section:last-child {
+    border-right: none;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+
+  .mapContainer {
+    min-height: 300px;
+  }
+
+  .controlsContainer {
+    max-height: none;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .section {
+    flex: 1;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    min-width: auto;
+    padding: 12px;
+  }
+
+  .eventTypeList {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tooltip {
+    font-size: 11px;
+    min-width: 150px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .controlsContainer {
+    max-height: 40vh;
+  }
+
+  .section {
+    padding: 10px;
+  }
+
+  .sectionTitle {
+    font-size: 12px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statValue {
+    font-size: 18px;
+  }
+
+  .tooltip {
+    font-size: 10px;
+    min-width: 120px;
+    padding: 6px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #0f0f0f;
+  }
+
+  .controlsContainer {
+    background: #1a202c;
+    border-left-color: #2d3748;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .controlsContainer::-webkit-scrollbar-track {
+    background: #2d3748;
+  }
+
+  .controlsContainer::-webkit-scrollbar-thumb {
+    background: #4a5568;
+  }
+
+  .controlsContainer::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+  }
+
+  .section {
+    border-bottom-color: #2d3748;
+  }
+
+  .sectionTitle {
+    color: #cbd5e0;
+    border-bottom-color: #2d3748;
+  }
+
+  .checkbox {
+    color: #e2e8f0;
+  }
+
+  .checkbox:hover {
+    color: #667eea;
+  }
+
+  .statItem {
+    background: #2d3748;
+  }
+
+  .statLabel {
+    color: #a0aec0;
+  }
+
+  .statValue {
+    color: #e2e8f0;
+  }
+
+  .tooltip {
+    background: #2d3748;
+    color: #e2e8f0;
+    border-left-color: #667eea;
+  }
+
+  .tooltipHeader {
+    color: #e2e8f0;
+    border-bottom-color: #4a5568;
+  }
+
+  .tooltipContent {
+    color: #cbd5e0;
+  }
+
+  .tooltipContent strong {
+    color: #e2e8f0;
+  }
+}
+
+/* Heatmap Buttons */
+.heatmapButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heatmapButton {
+  padding: 10px 12px;
+  border: 2px solid #cbd5e0;
+  border-radius: 4px;
+  background: white;
+  color: #2d3748;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.heatmapButton:hover {
+  background: #f7fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.heatmapButton.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  .heatmapButton {
+    background: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
+  }
+
+  .heatmapButton:hover {
+    background: #4a5568;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .heatmapButton.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+  }
+}

@@ -1,0 +1,44 @@
+# Python Backend Dependencies
+# LILA BLACK Player Journey Visualization Tool
+
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Data Processing
+pandas>=2.0.0
+pyarrow>=13.0.0
+numpy>=1.24.0
+
+# Database
+# sqlite3 is built-in to Python
+
+# Caching & Performance
+cachetools==5.3.2
+diskcache==5.6.3
+
+# Utilities
+python-dotenv==1.0.0
+python-dateutil==2.8.2
+
+# Logging & Monitoring
+python-json-logger==2.0.7
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.1
+
+# Type Checking
+mypy==1.7.1
+types-cachetools==5.4.0.6
+
+# Code Quality
+black==23.12.0
+flake8==6.1.0
+isort==5.13.2
+
+# Optional: Performance Profiling
+# py-spy==0.3.14
