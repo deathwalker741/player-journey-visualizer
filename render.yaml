@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: player-journey-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: DATA_PATH
+        value: ../../player_data
+      - key: MAPS_PATH
+        value: ../../player_data/minimaps
+      - key: DB_PATH
+        value: ./cache.db
+      - key: DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: info
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:3000,http://localhost:3001,https://player-journey-frontend-YOUR_RENDER_ID.onrender.com"
+    rootDir: backend
+    preDeployCommand: echo "Backend deployment"
+
+  - type: web
+    name: player-journey-frontend
+    runtime: node
+    buildCommand: npm install --legacy-peer-deps && NODE_OPTIONS=--openssl-legacy-provider npm run build
+    startCommand: npx serve -s build -p 3000
+    envVars:
+      - key: NODE_VERSION
+        value: 22.20.0
+      - key: REACT_APP_API_URL
+        value: https://player-journey-backend-YOUR_RENDER_ID.onrender.com
+    rootDir: frontend
